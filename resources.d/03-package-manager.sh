@@ -42,10 +42,10 @@ ensure_distro_package_manager_supported
 # prints that distro-specific name
 function confound_package_name_to_distro_specific_package_name() {
     package_name="$1"
-    if [[ -n ${distro_packages["$1"]} ]]; then
-        echo "${distro_packages["$package_name"]}"
+    if [[ -n "${distro_packages["${package_name}"]}" ]]; then
+        echo "${distro_packages["${package_name}"]}"
     else
-        >&2 echo "$package_name is not defined for distro $confound_os_id. Assuming it is the same name."
+        >&2 log_warning "$package_name is not defined for distro $confound_os_id. Assuming it is the same name."
         echo "$package_name"
     fi
 }
