@@ -24,13 +24,33 @@ function get_repo_dir() {
     realpath "$(dirname "$script_name")"
 }
 
+# Default config values
 CONFOUND_DIR=$(get_repo_dir "$0")
-
 STEPS_DIR="${CONFOUND_DIR}/confound.d"
 RESOURCE_DIR="${CONFOUND_DIR}/resources.d"
 CONFOUND_CONFIG_FILE="${CONFOUND_DIR}/confound.conf"
 PACKAGES_DIR="${CONFOUND_DIR}/distros"
 USER_STEPS_DIR="${CONFOUND_DIR}/user-steps.d"
+
+# Arg 1 [optional] CONFOUND_CONFIG_FILE
+function load_config() {
+    config_file="$1"
+    source "$config_file"
+}
+
+# Check for config being passed in as first argument
+if [[ $# -eq 1 ]]; then
+    # Cover the --help text case
+    if [[ "$1" == "--help" ]] || [[ "$1" == '-h' ]]; then
+        print_usage
+        exit 0
+    # Use the first argument as the CONFOUND_CONFIG_FILE
+    else
+        export CONFOUND_CONFIG_FILE="$1"
+    fi
+fi
+
+load_config "$CONFOUND_CONFIG_FILE"
 
 # 01-logging.sh is special because we use it everywhere. We end up sourcing it twice.
 source "${RESOURCE_DIR}/01-logging.sh"
@@ -40,10 +60,6 @@ function print_dirs() {
     log_info "Steps are at $STEPS_DIR"
     log_info "USER_STEPS_DIR = $USER_STEPS_DIR"
     log_info "Resource functions are at $RESOURCE_DIR"
-}
-
-function load_config() {
-    source "$CONFOUND_CONFIG_FILE"
 }
 
 function source_all_files_in_directory() {
@@ -69,8 +85,6 @@ function source_step_files() {
     source_all_files_in_directory "$STEPS_DIR"
     source_all_files_in_directory "$USER_STEPS_DIR"
 }
-
-load_config
 
 print_dirs
 
