@@ -15,9 +15,6 @@ trap "echo 'An error occurred! Quitting mid-script!'" ERR
 
 ################################################################################
 
-# Logging system
-# TODO: log_info, log_debug, log_error, log_warning functions
-
 # get_repo_dir()
 # Given the arguments to the script, return (print) the directory of this repo.
 # Arguments:
@@ -28,40 +25,49 @@ function get_repo_dir() {
 }
 
 CONFOUND_DIR=$(get_repo_dir "$0")
+
 STEPS_DIR="${CONFOUND_DIR}/confound.d"
 RESOURCE_DIR="${CONFOUND_DIR}/resources.d"
 CONFOUND_CONFIG_FILE="${CONFOUND_DIR}/confound.conf"
+PACKAGES_DIR="${CONFOUND_DIR}/distros"
+USER_STEPS_DIR="${CONFOUND_DIR}/user-steps.d"
+
+# 01-logging.sh is special because we use it everywhere. We end up sourcing it twice.
+source "${RESOURCE_DIR}/01-logging.sh"
 
 function print_dirs() {
-    echo "This project lives at $CONFOUND_DIR"
-    echo "Steps are at $STEPS_DIR"
-    echo "Resource functions are at $RESOURCE_DIR"
+    log_info "This project lives at $CONFOUND_DIR"
+    log_info "Steps are at $STEPS_DIR"
+    log_info "USER_STEPS_DIR = $USER_STEPS_DIR"
+    log_info "Resource functions are at $RESOURCE_DIR"
 }
 
 function load_config() {
     source "$CONFOUND_CONFIG_FILE"
 }
 
-function source_resource_files() {
+function source_all_files_in_directory() {
+    target_directory="$1"
+    if [[ -d "$target_directory" ]]; then
+        for resource_file in "$target_directory"/*; do
+            if [[ -a "$resource_file" ]]; then
+                log_info "- Sourcing $resource_file"
+                source "$resource_file"
+            else
+                log_warning "- Could not source $resource_file. Does not exist."
+            fi
+        done
+    fi
+}
 
-    # The globstar shopt makes `**` expand to all files in all subdirectories.
-    # TODO: Only set things for this function, put it back the way it was when
-    # we're done.
-    for resource_file in "$RESOURCE_DIR"/* ; do
-        if [[ -f "$resource_file" ]]; then
-            echo "Sourcing resource file $resource_file"
-            source "$resource_file"
-        fi
-    done
+function source_resource_files() {
+    source_all_files_in_directory "$RESOURCE_DIR"
+    # TODO: User RESOURCE_DIR
 }
 
 function source_step_files() {
-    for step_file in "$STEPS_DIR"/* ; do
-        if [[ -f "$step_file" ]]; then
-            echo "Sourcing resource file $step_file"
-            source "$step_file"
-        fi
-    done
+    source_all_files_in_directory "$STEPS_DIR"
+    source_all_files_in_directory "$USER_STEPS_DIR"
 }
 
 load_config
