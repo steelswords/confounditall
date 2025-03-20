@@ -1,5 +1,3 @@
-# This is the list of supported OSes. The ids come from /etc/os-release in the
-# ID field.
 # Each ID here needs to correspond to a file in $PACKAGES_DIR/$ID, which defines
 # details on how to install packages, as well as the distro-specific names for
 # packages.
@@ -71,7 +69,6 @@ function confound_package_name_to_distro_specific_package_name() {
 function confound_print_converted_package_names() {
     declare -a result_list
     for package_name in $@; do
-        >&2 echo "----> Checking $package_name"
         result_list+="$(confound_package_name_to_distro_specific_package_name "$package_name")"
     done
     echo "${result_list[@]}"
