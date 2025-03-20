@@ -24,6 +24,7 @@ function get_repo_dir() {
     realpath "$(dirname "$script_name")"
 }
 
+
 # Default config values
 CONFOUND_DIR=$(get_repo_dir "$0")
 STEPS_DIR="${CONFOUND_DIR}/confound.d"
@@ -55,6 +56,12 @@ load_config "$CONFOUND_CONFIG_FILE"
 # 01-logging.sh is special because we use it everywhere. We end up sourcing it twice.
 source "${RESOURCE_DIR}/01-logging.sh"
 
+# Redefine source so we always log when we're sourcing something
+source() {
+    log_info "- Sourcing $1"
+    command source "$1"
+}
+
 function print_dirs() {
     log_info "This project lives at $CONFOUND_DIR"
     log_info "Steps are at $STEPS_DIR"
@@ -67,7 +74,7 @@ function source_all_files_in_directory() {
     if [[ -d "$target_directory" ]]; then
         for resource_file in "$target_directory"/*; do
             if [[ -a "$resource_file" ]]; then
-                log_info "- Sourcing $resource_file"
+                #log_info "- Sourcing $resource_file"
                 source "$resource_file"
             else
                 log_warning "- Could not source $resource_file. Does not exist."

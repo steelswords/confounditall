@@ -1,8 +1,10 @@
-declare -A distro_packages
+#!/usr/bin/env bash
 
-distro_packages=(
+declare -A distro_packages=(
     [zsh]=zsh
     [tmux]=tmux
-    [git]=[git]
-    [cmake]=[cmake]
+    [git]=git
+    [cmake]=cmake
 )
+
+echo "distro_packages=${distro_packages[@]}"

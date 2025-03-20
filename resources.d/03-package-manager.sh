@@ -13,6 +13,10 @@
 export confound_distro_packages_file="${PACKAGES_DIR}/${confound_os_id}/packages.sh"
 export confound_distro_support_file="${PACKAGES_DIR}/${confound_os_id}/distrosupport.sh"
 
+# We have to source this one first, since we reference the distro_packages array
+# in our functions here.
+source "$confound_distro_packages_file"
+
 # Make sure the distro is supported. To count as "supported", these files need
 # to exist:
 #   - ${PACKAGES_DIR}/${confound_os_id}/distrosupport.sh
@@ -41,13 +45,20 @@ ensure_distro_package_manager_supported
 # Converts a given "confound name" of a package to the distro-specific one, and
 # prints that distro-specific name
 function confound_package_name_to_distro_specific_package_name() {
-    package_name="$1"
-    if [[ -n "${distro_packages["${package_name}"]}" ]]; then
+    package_name="${1:-}"
+    #>&2 printf "===== package_name = %s\n" "$package_name"
+    #>&2 printf "===== distro_packages= %s\n" "${distro_packages[@]}"
+
+    # Have to unset the nounset option here so we don't get errors
+    set +u
+    if [[ -v distro_packages[$package_name] ]] ; then
+        >&2 log_info "Using distro-defined package. Subbing ${distro_packages["${package_name}"]} for $package_name"
         echo "${distro_packages["${package_name}"]}"
     else
         >&2 log_warning "$package_name is not defined for distro $confound_os_id. Assuming it is the same name."
-        echo "$package_name"
+        echo "$package_name "
     fi
+    set -u
 }
 
 # Takes the arguments given it and prints the distro-specific version of each.
@@ -59,17 +70,17 @@ function confound_package_name_to_distro_specific_package_name() {
 # new_package_list=( $(confound_print_converted_package_names "${confound_packages_to_install[@]}" ) )
 function confound_print_converted_package_names() {
     declare -a result_list
-    for package_name in "$@"; do
-        result_list=( "${result_list[@]}" $(confound_package_name_to_distro_specific_package_name "$package_name") )
+    for package_name in $@; do
+        >&2 echo "----> Checking $package_name"
+        result_list+="$(confound_package_name_to_distro_specific_package_name "$package_name")"
     done
-    echo "$result_list"
+    echo "${result_list[@]}"
 }
 
 # The distro support files can depend on confound_print_converted_package_names and
 # confound_package_name_to_distro_specific_package_name so we have to source these
 # after those functions are defined.
 source "$confound_distro_support_file"
-source "$confound_distro_packages_file"
 
 #################################################
 # Top-Level Confound Package API
