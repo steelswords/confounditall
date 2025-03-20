@@ -13,7 +13,10 @@ function echo_error()   { echo -e "${_RED_TEXT}$*${_CLEAR_TEXT}";    }
 function echo_success() { echo -e "${_GREEN_TEXT}$*${_CLEAR_TEXT}";  }
 function echo_status()  { echo -e "${_BLUE_TEXT}$*${_CLEAR_TEXT}";   }
 
+# Make a symlink from counfound.log to the timestamped version.
 CONFOUND_LOG_FILE="${CONFOUND_DIR}/confound.log"
+CONFOUND_LOG_FILE_TIMESTAMPED="$CONFOUND_DIR/confound-$(date +%Y-%m-%d_%H.%M.%S).log"
+ln -sf "$CONFOUND_LOG_FILE_TIMESTAMPED" "$CONFOUND_LOG_FILE"
 
 CONFOUND_LOG_LEVEL="info" # values are info, debug, warn, error, crit
 
