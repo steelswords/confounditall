@@ -6,6 +6,8 @@ _BLUE_TEXT='\033[34m'
 _CLEAR_TEXT='\033[0m'
 _BOLD_TEXT='\033[1m'
 
+_CYAN_TEXT='\033[36m'
+
 function echo_warning() { echo -e "${_YELLOW_TEXT}$*${_CLEAR_TEXT}"; }
 function echo_error()   { echo -e "${_RED_TEXT}$*${_CLEAR_TEXT}";    }
 function echo_success() { echo -e "${_GREEN_TEXT}$*${_CLEAR_TEXT}";  }
@@ -44,13 +46,35 @@ function should_print_log_level() {
     return 0
 }
 
+# Arg 1: The log level
+function echo_log_color_code() {
+    log_level="${1:-}"
+    case "$log_level" in
+        info)
+            echo -e "$_BLUE_TEXT"
+            ;;
+        debug)
+            echo -e "$_CYAN_TEXT"
+            ;;
+        warn)
+            echo -e "$_YELLOW_TEXT"
+            ;;
+        error|crit)
+            echo -e "$_RED"
+            ;;
+        *)
+            ;;
+    esac
+}
+
 # Wraps a log message in the format of a log message, e.g. with timestamp and level
 # Arg 1: The message
 # Arg 2: [optional] The log level
 function wrap_log_message() {
     message="${1:-}"
     log_level="${2:-}"
-    printf "%s @ [%5s] %s\n" "$(date +%T.%N5)" "${log_level^^}" "$message"
+    printf "%s @ [%5s] %s %s%s\n" "$(date +%T.%5N)" "${log_level^^}" $(echo_log_color_code "$log_level") "$message"
+    echo -e "${_CLEAR_TEXT}"
 }
 
 # First arg is log level, rest are passed to echo.
