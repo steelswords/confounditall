@@ -59,8 +59,8 @@ function echo_log_color_code() {
         warn)
             echo -e "$_YELLOW_TEXT"
             ;;
-        error|crit)
-            echo -e "$_RED"
+        errorcrit)
+            echo -e "$_RED_TEXT"
             ;;
         *)
             ;;
