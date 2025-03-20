@@ -32,6 +32,9 @@ RESOURCE_DIR="${CONFOUND_DIR}/resources.d"
 CONFOUND_CONFIG_FILE="${CONFOUND_DIR}/confound.conf"
 PACKAGES_DIR="${CONFOUND_DIR}/distros"
 USER_STEPS_DIR="${CONFOUND_DIR}/user-steps.d"
+USER_CONFIG_REPO_DIR="${USER_CONFIG_REPO_DIR:-/tmp/you-cded-somewhere-and-did-not-cd-back-in-one-of-your-steps}"
+
+mkdir -p "$USER_CONFIG_REPO_DIR"
 
 # Arg 1 [optional] CONFOUND_CONFIG_FILE
 function load_config() {
@@ -76,6 +79,7 @@ function source_all_files_in_directory() {
             if [[ -a "$resource_file" ]]; then
                 #log_info "- Sourcing $resource_file"
                 source "$resource_file"
+                cd "$USER_CONFIG_REPO_DIR"
             else
                 log_warning "- Could not source $resource_file. Does not exist."
             fi
