@@ -27,7 +27,6 @@ function get_repo_dir() {
 
 # Default config values
 CONFOUND_DIR=$(get_repo_dir "$0")
-STEPS_DIR="${CONFOUND_DIR}/confound.d"
 RESOURCE_DIR="${CONFOUND_DIR}/resources.d"
 CONFOUND_CONFIG_FILE="${CONFOUND_DIR}/confound.conf"
 PACKAGES_DIR="${CONFOUND_DIR}/distros"
