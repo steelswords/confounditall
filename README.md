@@ -95,7 +95,24 @@ Also TODO: This is broken at the moment.
 TODO: Document
 
 ## `confound_package_update_upgrade`
+
+This is a the distro-agnostic, Confound way of doing an `apt update && apt upgrade`
+or a `pacman -Syu`.
+
+**Arguments:** none.
+
 ## `confound_package_install`
+
+This installs a package through the distro's package manager.
+
+**Arguments:**
+- `$1`: The Confound package name. This is usually, but not necessarily, the same
+    as Ubuntu's names for packages. This is translated to a distro-specific
+    equivalent if such is defined in the `distro_packages` array. (See "Support
+    for Multiple Distros, above"). If `$1` is NOT in the `distro_packages` array
+    for the detected distro, `$1` is passed as the native package name to the
+    distro package manager.
+
 ## `confound_ln`
 ## `confound_get_secret`
 
