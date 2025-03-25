@@ -76,16 +76,19 @@ Confound is governed by a few config values and one environment variable
 |----------------|-------------|---------------|
 | CONFOUND_DIR | The directory for the confounditall repo/submodule | The repo from which Confound's `setup.sh` is called. |
 | PACKAGES_DIR | The directory for distro support. See "Support for Multiple Distros", below. | `$CONFOUND_DIR/distros` |
-| USER_STEPS_DIR | The directory where your setup steps are located. |
-`$CONFOUND_DIR/user-steps.d` |
+| USER_STEPS_DIR | The directory where your setup steps are located. | `$USER_CONFIG_REPO_DIR/user-steps.d` |
+| SECRETS_FILE | A sops secrets file. See "Secrets with sops, below". |`$USER_CONFIG_REPO_DIR/secrets/secrets.json` |
+| USER_CONFIG_REPO_DIR | The directory that holds your config files and user steps. | *unset* |
 
 ## USER_CONFIG_REPO_DIR
-I highly recommend you export this as an environment variable instead of putting
+I recommend you export this as an environment variable instead of putting
 it in your `confound.conf` file.
 
 # Support for Multiple Distros
 
 TODO
+
+Also TODO: This is broken at the moment.
 
 # Bash Functions Provided by Confound
 
@@ -94,4 +97,17 @@ TODO: Document
 ## `confound_package_update_upgrade`
 ## `confound_package_install`
 ## `confound_ln`
+## `confound_get_secret`
 
+# Securely storing secrets with Sops
+Confound uses [sops](https://github.com/getsops/sops) for secret management. Sops
+is nice because when set up properly, it automagically keeps your secrets in a
+JSON or YAML (or other) file, with just the secret parts encrypted. That means
+you have a secrets file that's easy for git and diff to work with, but all your
+secrets remain encrypted.
+
+TODO: Document setup.
+
+The default place for your secrets file is in `$USER_CONFIG_REPO_DIR/secrets/secrets.json`.
+You can place it elsewhere if you also define and export a `SECRETS_FILE` variable
+with the location of your secrets file before sourcing Confound.
