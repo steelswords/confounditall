@@ -66,7 +66,6 @@ source() {
 
 function print_dirs() {
     log_info "This project lives at $CONFOUND_DIR"
-    log_info "Steps are at $STEPS_DIR"
     log_info "USER_STEPS_DIR = $USER_STEPS_DIR"
     log_info "Resource functions are at $RESOURCE_DIR"
 }
@@ -92,7 +91,6 @@ function source_resource_files() {
 }
 
 function source_step_files() {
-    source_all_files_in_directory "$STEPS_DIR"
     source_all_files_in_directory "$USER_STEPS_DIR"
 }
 
