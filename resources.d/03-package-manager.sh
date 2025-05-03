@@ -25,9 +25,10 @@ source "$confound_distro_packages_file"
 # distro_packages=( [confound_package_one]="foo" [confound_package_two]="bar" )
 function ensure_distro_package_manager_supported() {
     echo "PACKAGES_DIR = $PACKAGES_DIR"
-    if [[ -d "${PACKAGES_DIR}/${confound_os_id}" ]] && \
-        [[ -a "$confound_distro_support_file" ]] && \
-        [[ -a "$confound_distro_packages_file" ]];
+
+    # Implies that $PACAKGES_DIR/$confound_os_id exists.
+    if [[ -a "$(realpath $confound_distro_support_file)" ]] && \
+        [[ -a "$(realpath $confound_distro_packages_file)" ]];
     then
         echo "${confound_os_id} is supported. Hooray!"
     else
