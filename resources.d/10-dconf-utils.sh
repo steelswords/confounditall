@@ -38,17 +38,17 @@ confound_dconf_get_array_elements() {
 # Each element should NOT have single quotes (') or commas (,) mixed
 # in that don't relate to the actual value.
 dconf_assemble_into_array() {
-    args="$@"
     loop_i=1
     last_element_i=$#
+    last_element_i=$(( last_element_i - 1 ))
     printf '['
     for element in "$@"; do
-        if [[ $loop_i == $last_element_i ]]; then
+        if [[ $loop_i == "$last_element_i" ]]; then
             printf "'%s']\n" "$element"
         else
             printf "'%s', " "$element"
         fi
-        loop_i=$(( $loop_i + 1 ))
+        loop_i=$(( loop_i + 1 ))
     done
 }
 
