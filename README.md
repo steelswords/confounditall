@@ -20,7 +20,7 @@ installed natively and the programs I installed through home-manager.
 
 "Why am I fighting this system so hard to give me what I want? I just want my
 dotfiles to be symlinked to my configs repo and certain programs to be installed
-to recent, stable versions. I don't need to bork my whole system occassionally
+to recent, stable versions. I don't need to bork my whole system occasionally
 because of libc conflicts for that!"
 
 And thus, ConfoundItAll was born.
