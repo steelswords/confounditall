@@ -26,7 +26,7 @@ source "$confound_distro_packages_file"
 function ensure_distro_package_manager_supported() {
     echo "PACKAGES_DIR = $PACKAGES_DIR"
 
-    # Implies that $PACAKGES_DIR/$confound_os_id exists.
+    # Implies that $PACKAGES_DIR/$confound_os_id exists.
     if [[ -a "$(realpath $confound_distro_support_file)" ]] && \
         [[ -a "$(realpath $confound_distro_packages_file)" ]];
     then
@@ -69,8 +69,8 @@ function confound_package_name_to_distro_specific_package_name() {
 # new_package_list=( $(confound_print_converted_package_names "${confound_packages_to_install[@]}" ) )
 function confound_print_converted_package_names() {
     declare -a result_list
-    for package_name in $@; do
-        result_list+="$(confound_package_name_to_distro_specific_package_name "$package_name")"
+    for package_name in "$@"; do
+        result_list+=("$(confound_package_name_to_distro_specific_package_name "$package_name")")
     done
     echo "${result_list[@]}"
 }
