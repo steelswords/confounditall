@@ -7,8 +7,8 @@ programs!
 ## Background
 
 Managing dotfiles in itself isn't too bad, until you try to keep them in sync
-across several machines. Then it becomes a horrendous chore a horrendous chore.
-For instace, since 2019 I've had at least a personal laptop (or two or three), a
+across several machines. Then it becomes a horrendous chore.
+For instance, since 2019 I've had at least a personal laptop (or two or three), a
 personal desktop, a work computer, and several less-used Linux machines, be it
 servers, Raspberry Pis, whathaveyou.
 
