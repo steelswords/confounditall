@@ -6,6 +6,7 @@ declare -A distro_packages=(
     [git]=git
     [cmake]=cmake
     [bat]=bat
+    [pipx]=python3-pipx
 )
 
 echo "distro_packages=${distro_packages[@]}"

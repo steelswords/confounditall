@@ -59,10 +59,10 @@ load_config "$CONFOUND_CONFIG_FILE"
 source "${RESOURCE_DIR}/01-logging.sh"
 
 # Redefine source so we always log when we're sourcing something
-source() {
-    log_info "- Sourcing $1"
-    command source "$1"
-}
+#source() {
+#    log_info "- Sourcing $1"
+#    command source "$1"
+#}
 
 function print_dirs() {
     log_info "This project lives at $CONFOUND_DIR"
@@ -85,16 +85,18 @@ function source_all_files_in_directory() {
     fi
 }
 
-function source_resource_files() {
-    source_all_files_in_directory "$RESOURCE_DIR"
-    # TODO: User RESOURCE_DIR
-}
+#function source_resource_files() {
+#    source_all_files_in_directory "$RESOURCE_DIR"
+#    # TODO: User RESOURCE_DIR
+#}
 
-function source_step_files() {
-    source_all_files_in_directory "$USER_STEPS_DIR"
-}
+#function source_step_files() {
+#    source_all_files_in_directory "$USER_STEPS_DIR"
+#}
 
 print_dirs
 
-source_resource_files
-source_step_files
+source_all_files_in_directory "$RESOURCE_DIR"
+source_all_files_in_directory "$USER_STEPS_DIR"
+#source_resource_files
+#source_step_files
