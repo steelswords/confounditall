@@ -49,6 +49,10 @@ ensure_distro_package_manager_supported
 # Converts a given "confound name" of a package to the distro-specific one, and
 # prints that distro-specific name
 function confound_package_name_to_distro_specific_package_name() {
+    if [[ $# -ne 1 ]]; then
+	    echo_error "Error calling confound_package_name_to_distro_specific_package_name: Expected one argument, but got $#: $@"
+	    exit 10
+    fi
     package_name="${1:-}"
     #>&2 printf "===== package_name = %s\n" "$package_name"
     #>&2 printf "===== distro_packages= %s\n" "${distro_packages[@]}"
