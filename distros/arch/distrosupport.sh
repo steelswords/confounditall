@@ -16,10 +16,11 @@ function confound_arch_package_install() {
             --noremovemake
             --answerclean None
             --sudoloop
+            --needed
         )
         sudo yay "${YAY_OPTIONS[@]}" -Syu "${packages[@]}"
     else
-        sudo pacman --noconfirm -S "${packages[@]}"
+        sudo pacman --noconfirm --needed -S "${packages[@]}"
     fi
 }
 
