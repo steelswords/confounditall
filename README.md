@@ -114,6 +114,17 @@ This installs a package through the distro's package manager.
     distro package manager.
 
 ## `confound_ln`
+Sets up a symlink from `$1` to `$2`.
+In other words, makes `$1` show up at destination `$2`
+
+Use this to keep your dotfiles tracked in your configuration repo, but "placed"
+(symlinked) in the right places.
+
+Example:
+```bash
+confound_ln "$USER_CONFIG_REPO_DIR/dotfiles/suchandsuch" "$HOME/.suchandsuch"
+```
+
 ## `confound_get_secret`
 
 # Securely storing secrets with Sops
