@@ -13,6 +13,7 @@ declare -A distro_packages=(
     [python3-pip]=python-pip
     [pipx]=python-pipx
     [fonts-powerline]=powerline-fonts
+    [go]=go
 )
 
 >&2 echo "arch/packages.sh: distro_packages=${distro_packages[@]}"
