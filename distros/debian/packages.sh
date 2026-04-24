@@ -7,6 +7,7 @@ declare -A distro_packages=(
     [cmake]=cmake
     [bat]=bat
     [pipx]=pipx
+    [go]=golang-go
 )
 
 echo "distro_packages=${distro_packages[@]}"
