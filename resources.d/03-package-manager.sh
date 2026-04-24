@@ -106,7 +106,7 @@ function confound_is_version_at_least() {
         for segment in 1..3; do
             ref_segment=$(echo "$ref_version" | cut -d'.' --fields $i)
             test_segment=$(echo "$test_version" | cut -d'.' --fields $i)
-            if (( ref_segment > test_segement )); then
+            if (( ref_segment > test_segment )); then
                 echo "Version \"$test_version\" is NOT at least \"$ref_version\""
                 return 1
             fi
